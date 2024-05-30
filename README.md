@@ -1,2 +1,4 @@
-# hscalam
+HaScalaM
+=========
+
 Haskell to and from Scalameta
