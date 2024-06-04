@@ -402,9 +402,13 @@ sub Main {
         &Any(\"Source", $SOURCE, \"Main", \$_);
         print "\n"
     }
+    0
 }
 
-&Main();
+exit &Main() if $#ARGV == -1;
+
+$_ = join(" ", @ARGV);
+&Any(\"Stat", $STAT, \"Main", \$_);
 
 exit 0;
 

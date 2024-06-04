@@ -6,6 +6,12 @@ version:            0.1.1.0
 
 synopsis:           Haskell to and from Scalameta
 
+description:        Use a script to convert from Scalameta
+                    Source string to mirroring Haskell
+                    classes, types and instances. Use the
+                    Show instances to convert from mirrored
+                    Haskell types to Scalameta string.
+
 homepage:           https://github.com/sjbiaga/hascalam
 
 license:            MIT
@@ -18,7 +24,7 @@ maintainer:         sjb.ia.ga@gmail.com
 
 category:           Language
 
-extra-source-files: CHANGELOG.md
+extra-doc-files: CHANGELOG.md, README.md
 
 library
     exposed-modules:

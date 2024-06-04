@@ -33,7 +33,6 @@ instance ( p ~ SmPat
 instance t' ~ SmType' => Show (SmType'CaseCT t')
     where show (SmType'CaseT'C p b) = "TypeCase(" ++ show p ++ ", " ++ show b ++ ")"
 
-
 instance ( m ~ SmMod
          , n ~ SmName
          , t' ~ SmType'
@@ -394,7 +393,7 @@ instance Show SmType'
           show (T'Ref (RT'Ref (SmSelectRT' q n))) = "Type.Select(" ++ show q ++ ", " ++ show n ++ ")"
           show (T'Ref (RT'Ref (SmSingletonRT' r))) = "Type.Singleton(" ++ show r ++ ")"
 
-    
+
 instance t' ~ SmType' => Show (SmArgClauseT' t')
     where show (SmArgClauseT' vs) = "Type.ArgClause(" ++ lst vs ++ ")"
 
@@ -411,8 +410,8 @@ instance ( m ~ SmMod
          , b' ~ SmBounds' t'
          , pc' ~ SmParamClauseT' m n p' t' b'
          ) => Show (SmType'Def m n t'n p' t' b' pc')
-    where show (T'DType' t's') = "" --show t's'
-          show (T'DType t's) = "" --show t's
+    where show (T'DType' (SmType'S ms t'n t'pc b')) = "Decl.Type(" ++ lst ms ++ ", " ++ show t'n ++ ", " ++ show t'pc ++ ", " ++ show b' ++ ")"
+          show (T'DType (SmTypeS ms t'n t'pc b b')) = "Defn.Type(" ++ lst ms ++ ", " ++ show t'n ++ ", " ++ show t'pc ++ ", " ++ show b ++ ", " ++ show b' ++ ")"
 
 --------------------------------------------------------------------------------
 
