@@ -1,6 +1,8 @@
 {-# LANGUAGE TypeFamilies #-}
 module HaScalaM.Instances.Show where
 
+import Prelude hiding (seq)
+
 import HaScalaM.Classes.Type
 import HaScalaM.Types.Base
 import HaScalaM.Types.Enums
@@ -40,7 +42,7 @@ instance ( m ~ SmMod
          , p ~ SmParamT m n t' t
          , pc ~ SmParamClauseT m n p t' t
          ) => Show (SmCtorPrimary m n p t' t pc)
-    where show (SmCtorPrimary ms n pcs) = "Ctor.Primary(" ++ lst ms ++ ", " ++ show n ++ ", " ++ lst pcs ++ ")"
+    where show (SmCtorPrimary ms n pcs) = "Ctor.Primary(" ++ lst ms ++ ", " ++ show n ++ ", " ++ seq pcs ++ ")"
 
 -- E ---------------------------------------------------------------------------
 
@@ -61,7 +63,7 @@ instance ( n ~ SmName
          , t' ~ SmType'
          , ac ~ SmArgClauseT m t
          ) => Show (SmInit m n t' t ac)
-    where show (SmInit tpe name acs) = "Init(" ++ show tpe ++ ", " ++ show name ++ ", " ++ seq_ acs ++ ")"
+    where show (SmInit tpe name acs) = "Init(" ++ show tpe ++ ", " ++ show name ++ ", " ++ seq acs ++ ")"
 
 instance Show SmImportee
     where show (SmGivenI tpe) = "Importee.Given(" ++ show tpe ++ ")"
@@ -246,7 +248,8 @@ instance ( n ~ SmName
 
 instance Show SmStat
     where
-    show (SCtorSecondary (SmCtorSecondaryS ms n pcs i ss)) = "Ctor.Secondary(" ++ lst ms ++ ", " ++ show n ++ ", " ++ show pcs ++ ", " ++ show ss ++ ")"
+    show (S'' s) = s
+    show (SCtorSecondary (SmCtorSecondaryS ms n pcs i ss)) = "Ctor.Secondary(" ++ lst ms ++ ", " ++ show n ++ ", " ++ seq pcs ++ ", " ++ show ss ++ ")"
     show (SDef' (SmDef'S ms tn gs dt)) = "Decl.Def(" ++ lst ms ++ ", " ++ show tn ++ ", " ++ lst gs ++ ", " ++ show dt ++ ")"
     show (SGiven' (SmGiven'S ms tn g dt)) = "Decl.Given(" ++ lst ms ++ ", " ++ show tn ++ ", " ++ opt g ++ ", " ++ show dt ++ ")"
     show (SType' (SmType'S ms t'n t'pc b')) = "Decl.Type(" ++ lst ms ++ ", " ++ show t'n ++ ", " ++ show t'pc ++ ", " ++ show b' ++ ")"
@@ -288,6 +291,7 @@ instance Show (SmTemplate m n t' t ac i p s)
 
 instance Show SmTerm
     where
+    show (T'' s) = s
     show (TLit (SmBooleanL v)) = "Lit.Boolean(" ++ show v ++ ")"
     show (TLit (SmByteL v)) = "Lit.Byte(" ++ show v ++ ")"
     show (TLit (SmCharL v)) = "Lit.Char(" ++ show v ++ ")"
@@ -378,7 +382,7 @@ instance Show SmType'
           show (T'Lambda (SmLambdaT' t'pc tpe)) = "Type.Lambda(" ++ show t'pc ++ ", " ++ show tpe ++ ")"
           show (T'Macro (SmMacroT' b)) = "Type.Macro(" ++ show b ++ ")"
           show (T'Match (SmMatchT' tpe cs)) = "Type.Match(" ++ show tpe ++ ", " ++ lst cs ++ ")"
-          show (T'Type' (SmMethodT' pcs tpe)) = "Type.Method(" ++ lst pcs ++ ", " ++ show tpe ++ ")"
+          show (T'Type' (SmMethodT' pcs tpe)) = "Type.Method(" ++ seq pcs ++ ", " ++ show tpe ++ ")"
           show (T'Type' (SmOrT' lhs rhs)) = "Type.Or(" ++ show lhs ++ ", " ++ show rhs ++ ")"
           show (T'PolyFunction (SmPolyFunctionT' t'pc b)) = "Type.PolyFunction(" ++ show t'pc ++ ", " ++ show b ++ ")"
           show (T'Type' (SmRefineT' tpe ss)) = "Type.Refine(" ++ show tpe ++ ", " ++ lst ss ++ ")"
@@ -423,9 +427,9 @@ lst :: Show t => [t] -> String
 lst [] = "Nil"
 lst ls = "List(" ++ csv ls ++ ")"
 
-seq_ :: Show t => [t] -> String
-seq_ [] = "Seq()"
-seq_ ls = "Seq(" ++ csv ls ++ ")"
+seq :: Show t => [t] -> String
+seq [] = "Seq()"
+seq ls = "Seq(" ++ csv ls ++ ")"
 
 opt :: Show t => Maybe t -> String
 opt (Just v) = "Some(" ++ show v ++ ")"

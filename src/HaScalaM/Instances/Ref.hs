@@ -42,11 +42,6 @@ instance Ref SmRef_
 instance Tree SmRef
 instance RefT SmRef
 
--- instance Tree SmAnonymousRT
--- instance Name SmAnonymousRT
---     where value SmAnonymousRT = ""
--- instance Term t => Tree (SmSelectRT t)
-
 
 instance Tree SmRef'
 instance RefT' SmRef'

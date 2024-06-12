@@ -287,6 +287,7 @@ data SmSelf n t' where
 
 
 data SmStat where
+    S'' :: String -> SmStat
     SCtorSecondary :: ( m ~ SmMod
                       , n ~ SmName
                       , p ~ SmParamT m n t' t
@@ -696,6 +697,7 @@ data SmTermT where
                    , argsXT :: [t] } -> SmTermT
 
 data SmTerm where
+    T'' :: String -> SmTerm
     TApply :: ( m ~ SmMod
               , t ~ SmTerm
               , ac ~ SmArgClauseT m t
