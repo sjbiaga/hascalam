@@ -2,42 +2,36 @@
 module HaScalaM.Classes.Enums where
 
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Term
 
 
--- E ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- E --
 
 class Tree t => Enumerator t
 
-class ( Pat p
-      , Term b
-      , WithBody b t
-      ) => CaseGenerator p b t
-    where patCG :: t -> p
-          rhsCG :: t -> b
+class ( Enumerator e
+      , Pat p
+      , WithBody b e
+      ) => Assign p b e
+    where pat :: e -> p
+          rhs :: e -> b
 
-class ( Pat p
-      , Term b
-      , WithBody b t
-      ) => Generator p b t
-    where patG :: t -> p
-          rhsG :: t -> b
+class Assign p b t => CaseGenerator p b t
+
+class Assign p b t => Generator p b t
 
 class ( Tree t
       , Term b
       ) => Guard b t
-    where condG :: t -> b
+    where cond :: t -> b
 
-class ( Pat p
-      , Term b
-      , WithBody b t
-      ) => Val p b t
-    where patV :: t -> p
-          rhsV :: t -> b
+class Assign p b t => Val p b t
 
--- W ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- W --
 
 class ( Enumerator e
-      , Tree w
+      , WithExprs e w
       ) => WithEnums e w
     where enums :: w -> [e]
+          enums = exprs

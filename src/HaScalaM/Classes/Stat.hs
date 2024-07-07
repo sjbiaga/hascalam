@@ -7,13 +7,13 @@ import HaScalaM.Classes.Ref
 import HaScalaM.Classes.Type
 
 
--- D ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- D --
 
 class Tree s => Decl s
 
 class Tree s => Defn s
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 class Tree r => Importee r
 
@@ -24,10 +24,18 @@ class (RefT r, Importee i, Tree t) => Importer r i t
 class (Importer r i t, Tree s) => ImportExportStat r i t s
     where importers :: s -> [t]
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 class ( MemberT' t'n t'd
       , WithMods m t'd
       , WithT'ParamClause m n p' t' b' pc' t'd
       ) => Type'Def m n t'n p' t' b' pc' t'd
     where bounds' :: t'd -> b'
+
+--------------------------------------------------------------------------- W --
+
+class ( Stat s
+      , WithExprs s w
+      ) => WithStats s w
+    where stats :: w -> [s]
+          stats = exprs

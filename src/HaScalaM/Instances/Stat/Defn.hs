@@ -4,6 +4,7 @@ module HaScalaM.Instances.Stat.Defn where
 import Data.Maybe         (listToMaybe)
 import HaScalaM.Classes
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
@@ -11,7 +12,7 @@ import HaScalaM.Types.Stat
 import HaScalaM.Types.Tilde
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 instance ( NameT' t'n
          , ParamClauseT' m n p' t' b' pc'
@@ -59,7 +60,7 @@ instance ( NameT' t'n
          ) => WithTemplate m n t' t ac i f s e (SmClassS m n t'n p p' t' b' t pc pc' c ac i f s e)
     where templ (SmClassS _ _ _ _ e) = e
 
--- D ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- D --
 
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
@@ -97,13 +98,13 @@ instance ( NameT tn
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
          ) => WithDeclTpeOpt t' (SmDefS m n tn p p' t' b' t pc pc' g)
-    where decltpeOpt (SmDefS _ _ _ dt _) = dt
+    where decltpe' (SmDefS _ _ _ dt _) = dt
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
          ) => WithBody t (SmDefS m n tn p p' t' b' t pc pc' g)
     where body (SmDefS _ _ _ _ b) = b
 
--- E ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- E --
 
 instance ( NameT' t'n
          , ParamClauseT' m n p' t' b' pc'
@@ -216,7 +217,7 @@ instance ( ParamClauseGroup m n p p' t' b' t pc pc' g
          ) => WithBody s (SmExtensionGroupS m n p p' t' b' t pc pc' s g)
     where body (SmExtensionGroupS _ b) = b
 
--- G ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- G --
 
 instance ParamClauseGroup m n p p' t' b' t pc pc' g => Tree (SmGivenAliasS m n p p' t' b' t pc pc' g)
 instance ParamClauseGroup m n p p' t' b' t pc pc' g => Defn (SmGivenAliasS m n p p' t' b' t pc pc' g)
@@ -265,7 +266,7 @@ instance ( ParamClauseGroup m n p p' t' b' t pc pc' g
          ) => WithTemplate m n t' t ac i f s e (SmGivenS m n p p' t' b' t pc pc' ac i f s e g)
     where templ (SmGivenS _ _ _ e) = e
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
@@ -303,13 +304,13 @@ instance ( NameT tn
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
       ) => WithDeclTpeOpt t' (SmMacroS m n tn p p' t' b' t pc pc' g)
-    where decltpeOpt (SmMacroS _ _ _ dt _) = dt
+    where decltpe' (SmMacroS _ _ _ dt _) = dt
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
       ) => WithBody t (SmMacroS m n tn p p' t' b' t pc pc' g)
     where body (SmMacroS _ _ _ _ b) = b
 
--- O ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- O --
 
 instance ( NameT tn
          , Template m n t' t ac i p s e
@@ -333,7 +334,7 @@ instance ( NameT tn
          ) => WithTemplate m n t' t ac i p s e (SmObjectS m n tn p t' t ac i s e)
     where templ (SmObjectS _ _ e) = e
 
--- R ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- R --
 
 instance ( Mod m
          , NameT tn
@@ -346,7 +347,7 @@ instance ( Mod m
          ) => WithMods m (SmRepeatedEnumCase m tn)
     where mods (SmRepeatedEnumCase ms _) = ms
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 instance ( NameT' t'n
          , ParamClauseT' m n p' t' b' pc'
@@ -425,7 +426,7 @@ instance ( NameT' t'n
          ) => WithBody t' (SmTypeS m n t'n p' t' b' pc')
     where body (SmTypeS _ _ _ b' _) = b'
 
--- V ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- V --
 
 instance ( Mod m
          , Pat p
@@ -447,8 +448,14 @@ instance ( Mod m
          , Pat p
          , Type' t'
          , Term t
+         ) => WithPats p (SmValS m p t' t)
+    where pats (SmValS _ ps _ _) = ps
+instance ( Mod m
+         , Pat p
+         , Type' t'
+         , Term t
          ) => WithDeclTpeOpt t' (SmValS m p t' t)
-    where decltpeOpt (SmValS _ _ dt _) = dt
+    where decltpe' (SmValS _ _ dt _) = dt
 instance ( Mod m
          , Pat p
          , Type' t'
@@ -477,8 +484,14 @@ instance ( Mod m
          , Pat p
          , Type' t'
          , Term t
+         ) => WithPats p (SmVarS m p t' t)
+    where pats (SmVarS _ ps _ _) = ps
+instance ( Mod m
+         , Pat p
+         , Type' t'
+         , Term t
          ) => WithDeclTpeOpt t' (SmVarS m p t' t)
-    where decltpeOpt (SmVarS _ _ dt _) = dt
+    where decltpe' (SmVarS _ _ dt _) = dt
 instance ( Mod m
          , Pat p
          , Type' t'

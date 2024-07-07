@@ -2,13 +2,13 @@
 module HaScalaM.Types.Pat where
 
 import HaScalaM.Classes
-import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 import HaScalaM.Types.Ref
 
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 data SmExtractP t p ac where
     SmExtractP :: ( Term t

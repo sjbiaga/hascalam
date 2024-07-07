@@ -2,17 +2,20 @@
 module HaScalaM.Instances.Pat where
 
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Term
 import HaScalaM.Types.Pat
 import HaScalaM.Types.Tilde
 
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 instance Pat p => Tree (SmArgClauseP p)
 instance Pat p => SyntaxValuesClauses p (SmArgClauseP p)
     where values (SmArgClauseP vs) = vs
 instance Pat p => ArgClause p (SmArgClauseP p)
+instance Pat p => WithPats p (SmArgClauseP p)
+    where pats (SmArgClauseP ps) = ps
 instance Pat p => ArgClauseP p (SmArgClauseP p)
 
 instance Tree SmPatP

@@ -2,13 +2,14 @@ module HaScalaM.Types.Stat where
 
 import HaScalaM.Classes
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Ref
 import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 
 
--- D ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- D --
 
 data SmDef'S m n tn p p' t' b' t pc pc' g where
     SmDef'S :: ( NameT tn
@@ -176,13 +177,13 @@ data SmVarS m p t' t where
                    , decltpeOptVarS :: Maybe t'
                    , rhsVarS :: t } -> SmVarS m p t' t
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 data SmImportExportStatS r i t where
     SmImportS :: Importer r i t => { importersIIESS :: [t] } -> SmImportExportStatS r i t
     SmExportS :: Importer r i t => { importersIEESS :: [t] } -> SmImportExportStatS r i t
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 data SmPkgS r s where
     SmPkgS :: ( RefT r

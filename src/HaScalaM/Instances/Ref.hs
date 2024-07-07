@@ -9,7 +9,7 @@ import HaScalaM.Types.Ref
 import HaScalaM.Types.Tilde
 
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 instance Tree SmName
 instance Name SmName where
@@ -33,7 +33,7 @@ instance Name SmNameT'
     where value (SmNameT' v) = v
 instance NameT' SmNameT'
 
--- R ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- R --
 
 instance Tree SmRef_
 instance Ref SmRef_

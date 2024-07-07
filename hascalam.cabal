@@ -2,7 +2,7 @@ cabal-version:      2.4
 
 name:               hascalam
 
-version:            0.1.1.1
+version:            0.1.1.2
 
 synopsis:           Haskell to and from Scalameta
 
@@ -31,6 +31,7 @@ library
         HaScalaM.Classes,
         HaScalaM.Classes.Base,
         HaScalaM.Classes.Enums,
+        HaScalaM.Classes.Pat,
         HaScalaM.Classes.Ref,
         HaScalaM.Classes.Stat,
         HaScalaM.Classes.Type,
@@ -54,7 +55,8 @@ library
         HaScalaM.Instances.Stat.Defn,
         HaScalaM.Instances.Term,
         HaScalaM.Instances.Type,
-        HaScalaM.Instances.Tilde
+        HaScalaM.Instances.Tilde,
+        HaScalaM.Tree
 
     build-depends:
         base ^>=4.18

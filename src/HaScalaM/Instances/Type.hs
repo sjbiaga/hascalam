@@ -10,7 +10,7 @@ import HaScalaM.Types.Type
 import HaScalaM.Types.Tilde
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 instance Type' t' => Tree (SmType'CaseCT t')
 instance Type' t' => WithBody t' (SmType'CaseCT t')
@@ -19,13 +19,13 @@ instance Type' t' => CaseTree t' t' (SmType'CaseCT t')
     where pat (SmType'CaseT'C p _) = p
 instance Type' t' => Type'Case t' (SmType'CaseCT t')
 
--- F ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- F --
 
 instance Type' t' => Tree (FuncParamClause' t')
 instance Type' t' => SyntaxValuesClauses t' (FuncParamClause' t')
     where values (FuncParamClause' vs) = vs
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 instance Type' t' => Tree (SmArgClauseT' t')
 instance Type' t' => SyntaxValuesClauses t' (SmArgClauseT' t')
@@ -92,6 +92,17 @@ instance ( Type' t'
          ) => FunctionT' t' (SmContextFunctionT' t')
     where res (SmContextFunctionT' _ r) = r
 
+instance ( Type' t'
+         , Stat s
+         ) => Tree (SmExistentialT' t' s)
+instance ( Type' t'
+         , Stat s
+         ) => WithExprs s (SmExistentialT' t' s)
+    where exprs (SmExistentialT' _ ss) = ss
+instance ( Type' t'
+         , Stat s
+         ) => WithStats s (SmExistentialT' t' s)
+
 instance Type' t' => Tree (SmFunctionT' t')
 instance Type' t' => WithBody t' (SmFunctionT' t')
     where body (SmFunctionT' _ r) = r
@@ -100,16 +111,6 @@ instance Type' t' => Function t' (FuncParamClause' t') t' (SmFunctionT' t')
 instance ( Type' t'
          ) => FunctionT' t' (SmFunctionT' t')
     where res (SmFunctionT' _ r) = r
-
--- instance ( Mod m
---          , Type' t'
---          ) => Tree (SmFunctionArgT' m t')
--- instance ( Mod m
---          , Type' t'
---          ) => FunctionParamOrArg m SmNameT' t' (SmFunctionArgT' m t')
---     where mods    (SmFunctionArgT' ms _) = ms
---           nameOpt _ = Nothing
---           tpe     (SmFunctionArgT' _ t) = t
 
 instance ParamClauseT' m n p' t' b' pc' => Tree (SmLambdaT' m n p' t' b' pc')
 instance ParamClauseT' m n p' t' b' pc' => WithBody t' (SmLambdaT' m n p' t' b' pc')
@@ -124,27 +125,30 @@ instance Term t => WithBody t (SmMacroT' t)
     where body (SmMacroT' b) = b
 
 instance Type'Case t' ct => Tree (SmMatchT' t' ct)
+instance ( Tree ct
+         , Type'Case t' ct
+         ) => WithExprs ct (SmMatchT' t' ct)
+    where exprs (SmMatchT' _ cs) = cs
 instance Type'Case t' ct => WithCases t' t' ct (SmMatchT' t' ct)
-    where cases (SmMatchT' _ cs) = cs
 
 instance ParamClauseT' m n p' t' b' pc' => Tree (SmPolyFunctionT' m n p' t' b' pc')
 instance ParamClauseT' m n p' t' b' pc' => WithT'ParamClause m n p' t' b' pc' (SmPolyFunctionT' m n p' t' b' pc')
     where t'paramClause (SmPolyFunctionT' t'pc _) = t'pc
 
+instance ( Type' t'
+         , Stat s
+         ) => Tree (SmRefineT' t' s)
+instance ( Type' t'
+         , Stat s
+         ) => WithExprs s (SmRefineT' t' s)
+    where exprs (SmRefineT' _ ss) = ss
+instance ( Type' t'
+         , Stat s
+         ) => WithStats s (SmRefineT' t' s)
+
 instance Type' t' => Tree (SmTupleT' t')
 instance Type' t' => Tuple t' (SmTupleT' t')
     where args (SmTupleT' as) = as
-
--- instance ( NameT' t'n
---          , Type' t'
---          ) => Tree (SmTypedParamT' t'n t')
--- instance ( Mod m
---          , NameT' t'n
---          , Type' t'
---          ) => FunctionParamOrArg m t'n t' (SmTypedParamT' t'n t')
---     where mods    _ = []
---           nameOpt (SmTypedParamT' n _) = Just n
---           tpe     (SmTypedParamT' _ t) = t
 
 instance NameT' n => Tree (SmVarT' n)
 instance NameT' n => Member n (SmVarT' n)

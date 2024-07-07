@@ -9,18 +9,7 @@ import HaScalaM.Types.Base
 import HaScalaM.Types.Tilde
 
 
--- -- A ---------------------------------------------------------------------------
-
--- instance Init m n t' t ac i => Tree (SmAnnotM m n t' t ac i)
--- instance ( m ~ SmMod
---          , n ~ SmName
---          , t' ~ SmType'
---          , ac ~ SmArgClauseT m t
---          , Init m n t' t ac i
---          ) => Annot m n t' t ac i (SmAnnotM m n t' t ac i)
---     where init (SmAnnotM i) = i
-
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 instance ( Name n
          , Type' t'
@@ -38,16 +27,16 @@ instance ( m ~ SmMod
           name' (SmInit _ n _) = n
           argClauses (SmInit _ _ as) = as
 
--- L ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- L --
 
 instance Tree SmLit
 instance Lit SmLit
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 instance Tree SmModM
 
-instance Ref r => Tree (SmAccessM r) --; instance Ref r => Mod (SmAccessM r)
+instance Ref r => Tree (SmAccessM r)
 instance Ref r => WithWithin r (SmAccessM r)
     where within (SmPrivateM r)   = r
           within (SmProtectedM r) = r

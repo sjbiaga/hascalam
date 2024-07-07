@@ -3,28 +3,22 @@ module HaScalaM.Instances.Tilde where
 
 import HaScalaM.Classes
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 import HaScalaM.Types.Tilde
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 instance ParamClauseT m n p t' t pc => Tree (SmCtorPrimary m n p t' t pc)
 instance ParamClauseT m n p t' t pc => Ctor (SmCtorPrimary m n p t' t pc)
 instance ParamClauseT m n p t' t pc => WithParamClauses m n p t' t pc (SmCtorPrimary m n p t' t pc)
     where paramClauses (SmCtorPrimary _ _ pcs) = pcs
-instance ( m ~ SmMod
-         , n ~ SmName
-         , p ~ SmParamT m n t' t
-         , t' ~ SmType'
-         , t ~ SmTerm
-         , pc ~ SmParamClauseT m n p t' t
-         , ParamClauseT m n p t' t pc
-         ) => Primary m n p t' t pc (SmCtorPrimary m n p t' t pc)
+instance ParamClauseT m n p t' t pc => Primary m n p t' t pc (SmCtorPrimary m n p t' t pc)
     where mods (SmCtorPrimary ms _ _) = ms
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 instance Tree SmMod
 instance Mod SmMod
@@ -32,28 +26,19 @@ instance ArgsType SmMod
 instance ParamsType SmMod
 instance Variant SmMod
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 instance ( ParamClauseT' m n p' t' b' pc'
          , ParamClauseT m n p t' t pc
          ) => Tree (SmParamClauseGroup m n p p' t' b' t pc pc')
-instance ( m ~ SmMod
-         , n ~ SmName
-         , p ~ SmParamT m n t' t
-         , p' ~ SmParamT' m n t' b'
-         , t' ~ SmType'
-         , b' ~ SmBounds' t'
-         , t ~ SmTerm
-         , pc ~ SmParamClauseT m n p t' t
-         , pc' ~ SmParamClauseT' m n p' t' b'
-         , ParamClauseT' m n p' t' b' pc'
+instance ( ParamClauseT' m n p' t' b' pc'
          , ParamClauseT m n p t' t pc
          ) => ParamClauseGroup m n p p' t' b' t pc pc' (SmParamClauseGroup m n p p' t' b' t pc pc')
     where
       t'paramClause' (SmParamClauseGroup t'pc _) = t'pc
       paramClauses' (SmParamClauseGroup _ pcs) = pcs
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 instance ( Name n
          , Type' t'
@@ -65,7 +50,7 @@ instance ( Name n
 instance ( Name n
          , Type' t'
          ) => WithDeclTpeOpt t' (SmSelf n t')
-    where decltpeOpt (SmSelf _ dt) = dt
+    where decltpe' (SmSelf _ dt) = dt
 instance ( n ~ SmName
          , t' ~ SmType'
          , Name n
@@ -74,26 +59,27 @@ instance ( n ~ SmName
 
 
 instance Stat s => Tree (SmSource s)
-instance ( s ~ SmStat
-         , Stat s
-         ) => Source s (SmSource s)
-    where stats' (SmSource ss) = ss
+instance Stat s => WithExprs s (SmSource s)
+    where exprs (SmSource ss) = ss
+instance Stat s => WithStats s (SmSource s)
+instance Stat s => Source s (SmSource s)
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 instance ( Init m n t' t ac i
          , Stat s
          , Self n t' p
          ) => Tree (SmTemplate m n t' t ac i p s)
-instance ( m ~ SmMod
-         , n ~ SmName
-         , t' ~ SmType'
-         , t ~ SmTerm
-         , ac ~ SmArgClauseT m t
-         , i ~ SmInit m n t' t ac
-         , s ~ SmStat
-         , p ~ SmSelf n t'
-         , Init m n t' t ac i
+instance ( Init m n t' t ac i
+         , Stat s
+         , Self n t' p
+         ) => WithExprs s (SmTemplate m n t' t ac i p s)
+    where exprs (SmTemplate _ _ _ ss _) = ss
+instance ( Init m n t' t ac i
+         , Stat s
+         , Self n t' p
+         ) => WithStats s (SmTemplate m n t' t ac i p s)
+instance ( Init m n t' t ac i
          , Stat s
          , Self n t' p
          ) => Template m n t' t ac i p s (SmTemplate m n t' t ac i p s)

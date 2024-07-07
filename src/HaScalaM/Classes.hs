@@ -4,18 +4,19 @@ module HaScalaM.Classes where
 
 import Data.Int (Int8, Int16, Int64)
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 
 
--- A ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- A --
 
 class ( Init m n t' t ac i
       , Tree a
       ) => Annot m n t' t ac i a
     where init :: a -> i
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 class ( WithParamClauses m n p t' t pc c
       , Ctor c
@@ -28,7 +29,7 @@ class ( WithParamClauses m n p t' t pc c
       , Ctor c
       ) => Secondary m n p t' t pc ac i s c
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 class ( Name n
       , Type' t'
@@ -39,11 +40,11 @@ class ( Name n
           name'      :: i -> n
           argClauses :: i -> [ac]
 
--- L ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- L --
 
 class Tree t => Lit t
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 class ( ParamClauseT' m n p' t' b' pc'
       , ParamClauseT m n p t' t pc
@@ -53,16 +54,17 @@ class ( ParamClauseT' m n p' t' b' pc'
       t'paramClause' :: g -> pc'
       paramClauses' :: g -> [pc]
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 class ( Name n
       , WithDeclTpeOpt t' p
       ) => Self n t' p
 
-class (Stat s, Tree t) => Source s t
-    where stats' :: t -> [s]
+class ( Stat s
+      , WithStats s t
+      ) => Source s t
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 class ( Init m n t' t ac i
       , Stat s
@@ -75,7 +77,7 @@ class ( Init m n t' t ac i
           stats :: e -> [s]
           derives :: e -> [t']
 
--- W ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- W --
 
 class ( Primary m n p t' t pc c
       , Tree w

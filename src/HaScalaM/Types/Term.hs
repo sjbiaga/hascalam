@@ -2,12 +2,13 @@
 module HaScalaM.Types.Term where
 
 import HaScalaM.Classes
+import HaScalaM.Classes.Base
 import HaScalaM.Classes.Enums
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 data SmApplyT m t ac where
     SmApplyT :: ArgClauseT m t ac => { funAppT :: t
@@ -34,6 +35,9 @@ data SmAssignT t where
     SmAssignT :: Term t => { lhsAT :: t
                            , rhsAT :: t } -> SmAssignT t
 
+data SmBlockT s where
+    SmBlockT  :: Stat s => { statsBlT :: [s] } -> SmBlockT s
+
 data SmContextFunctionT m n p t' t pc where
     SmContextFunctionT :: ParamClauseT m n p t' t pc => { paramClauseCFT :: pc
                                                         , bodyCFT :: t } -> SmContextFunctionT m n p t' t pc
@@ -57,6 +61,14 @@ data SmForYieldT e t where
 data SmFunctionT m n p t' t pc where
     SmFunctionT :: ParamClauseT m n p t' t pc => { paramClauseFT :: pc
                                                  , bodyFT :: t } -> SmFunctionT m n p t' t pc
+
+data SmIfT m t where
+    SmIfT :: ( Mod m
+             , Term t
+             ) => { condIfT :: t
+                  , thenpIfT :: t
+                  , elsepIfT :: t
+                  , mods :: [m] } -> SmIfT m t
 
 data SmMatchT p t ct where
     SmMatchT :: Case p t ct => { exprMT :: t

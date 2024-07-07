@@ -5,22 +5,13 @@ module HaScalaM.Classes.Type where
 import HaScalaM.Classes.Base
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 class ( Type' t'
       , CaseTree t' t' ct
       ) => Type'Case t' ct
 
--- F ---------------------------------------------------------------------------
-
--- class ( Mod m
---       , NameT' t'n
---       , Type' t'
---       , Type' t
---       ) => FunctionParamOrArg m t'n t' t
---     where mods    :: t -> [m]
---           nameOpt :: t -> Maybe t'n
---           tpe     :: t -> t'
+--------------------------------------------------------------------------- F --
 
 data FuncParamClause' t' where
     FuncParamClause' :: Type' t' => { valuesFPC' :: [t'] } -> FuncParamClause' t'
@@ -30,15 +21,15 @@ class ( Type' t'
       ) => FunctionT' t' f
     where res :: f -> t'
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 class (NameT' n', Member n' t') => MemberT' n' t'
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 class Name n' => NameT' n'
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 class ( WithT'ParamClause m n p' t' b' pc' p'
       , Bounds' t' b'
@@ -51,7 +42,7 @@ class ( ParamT' m n p' t' b' pc'
       , ParamClause m n p' pc'
       ) => ParamClauseT' m n p' t' b' pc'
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 class ( Type' t'
       , ArgClause t' t
@@ -63,7 +54,7 @@ class (Type' t', Tree b') => Bounds' t' b'
     where lo :: b' -> Maybe t'
           hi :: b' -> Maybe t'
 
--- W ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- W --
 
 class ( Type' t'
       , Tree w
@@ -73,7 +64,7 @@ class ( Type' t'
 class ( Type' t'
       , Tree w
       ) => WithDeclTpeOpt t' w
-    where decltpeOpt :: w -> Maybe t'
+    where decltpe' :: w -> Maybe t'
 
 class ( ParamClauseT' m n p' t' b' pc'
       , Tree w

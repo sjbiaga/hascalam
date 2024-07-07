@@ -2,13 +2,14 @@ module HaScalaM.Instances where
 
 import HaScalaM.Classes
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 import HaScalaM.Types.Base
 import HaScalaM.Types.Tilde
 
 
--- A ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- A --
 
 instance Init m n t' t ac i => Tree (SmAnnotM m n t' t ac i)
 instance ( m ~ SmMod
@@ -21,7 +22,7 @@ instance ( m ~ SmMod
          ) => Annot m n t' t ac i (SmAnnotM m n t' t ac i)
     where init (SmAnnotM i) = i
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 instance ( ParamClauseT m n p t' t pc
          , Init m n t' t ac i
@@ -41,17 +42,16 @@ instance ( ParamClauseT m n p t' t pc
          , Stat s
          ) => WithParamClauses m n p t' t pc (SmCtorSecondaryS m n p t' t pc ac i s)
     where paramClauses (SmCtorSecondaryS _ _ pss _ _) = pss
-instance ( m ~ SmMod
-         , n ~ SmName
-         , p ~ SmParamT m n t' t
-         , t' ~ SmType'
-         , t ~ SmTerm
-         , pc ~ SmParamClauseT m n p t' t
-         , ac ~ SmArgClauseT m t
-         , i ~ SmInit m n t' t ac
-         , s ~ SmStat
-         , Init m n t' t ac i
-         , ParamClauseT m n p t' t pc
+instance ( ParamClauseT m n p t' t pc
          , Init m n t' t ac i
          , Stat s
-        ) => Secondary m n p t' t pc ac i s (SmCtorSecondaryS m n p t' t pc ac i s)
+         ) => WithExprs s (SmCtorSecondaryS m n p t' t pc ac i s)
+    where exprs (SmCtorSecondaryS _ _ _ _ ss) = ss
+instance ( ParamClauseT m n p t' t pc
+         , Init m n t' t ac i
+         , Stat s
+         ) => WithStats s (SmCtorSecondaryS m n p t' t pc ac i s)
+instance ( ParamClauseT m n p t' t pc
+         , Init m n t' t ac i
+         , Stat s
+         ) => Secondary m n p t' t pc ac i s (SmCtorSecondaryS m n p t' t pc ac i s)

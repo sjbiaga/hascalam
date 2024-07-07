@@ -1,0 +1,35 @@
+module HaScalaM.Tree (
+                      module HaScalaM.Instances.Base,
+                      module HaScalaM.Instances.Enums,
+                      module HaScalaM.Instances.Pat,
+                      module HaScalaM.Instances.Ref,
+                      module HaScalaM.Instances.Stat,
+                      module HaScalaM.Instances.Term,
+                      module HaScalaM.Instances.Type,
+                      module HaScalaM.Instances.Tilde,
+                      module HaScalaM.Types.Base,
+                      module HaScalaM.Types.Enums,
+                      module HaScalaM.Types.Pat,
+                      module HaScalaM.Types.Ref,
+                      module HaScalaM.Types.Stat,
+                      module HaScalaM.Types.Term,
+                      module HaScalaM.Types.Type,
+                      module HaScalaM.Types.Tilde
+) where
+
+import HaScalaM.Instances.Base
+import HaScalaM.Instances.Enums
+import HaScalaM.Instances.Pat
+import HaScalaM.Instances.Ref
+import HaScalaM.Instances.Stat
+import HaScalaM.Instances.Term
+import HaScalaM.Instances.Type
+import HaScalaM.Instances.Tilde
+import HaScalaM.Types.Base
+import HaScalaM.Types.Enums
+import HaScalaM.Types.Pat
+import HaScalaM.Types.Ref
+import HaScalaM.Types.Stat
+import HaScalaM.Types.Term
+import HaScalaM.Types.Type
+import HaScalaM.Types.Tilde

@@ -6,7 +6,7 @@ import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 
 
--- RT --------------------------------------------------------------------------
+-------------------------------------------------------------------------- RT --
 
 data SmRefT n t where
     SmApplyUnaryRT :: ( Name n
@@ -26,7 +26,7 @@ data SmSelectRT tn t where
                   ) => { qualSRT :: t
                        , nameSRT :: tn } -> SmSelectRT tn t
 
--- RT' -------------------------------------------------------------------------
+------------------------------------------------------------------------- RT' --
 
 data SmRefT' t'n t' r where
     SmProjectRT' :: ( NameT' t'n

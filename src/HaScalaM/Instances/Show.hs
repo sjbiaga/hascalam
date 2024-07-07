@@ -15,7 +15,7 @@ import HaScalaM.Types.Tilde
 import Data.List (findIndices)
 
 
--- A ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- A --
 
 instance ( m ~ SmMod
          , n ~ SmName
@@ -25,7 +25,7 @@ instance ( m ~ SmMod
          ) => Show (SmAnnotM m n t' t ac i)
     where show (SmAnnotM i) = "Mod.Annot(" ++ show i ++ ")"
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 instance ( p ~ SmPat
          , t ~ SmTerm
@@ -44,7 +44,7 @@ instance ( m ~ SmMod
          ) => Show (SmCtorPrimary m n p t' t pc)
     where show (SmCtorPrimary ms n pcs) = "Ctor.Primary(" ++ lst ms ++ ", " ++ show n ++ ", " ++ seq pcs ++ ")"
 
--- E ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- E --
 
 instance Show SmEnumerator
     where show (ECaseGenerator (SmCaseGeneratorE p b)) = "Enumerator.CaseGenerator(" ++ show p ++ ", " ++ show b ++ ")"
@@ -52,12 +52,12 @@ instance Show SmEnumerator
           show (EGuard (SmGuardE b)) = "Enumerator.Guard(" ++ show b ++ ")"
           show (EVal (SmValE p b)) = "Enumerator.Val(" ++ show p ++ ", " ++ show b ++ ")"
 
--- F ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- F --
 
 instance t' ~ SmType' => Show (FuncParamClause' t')
     where show (FuncParamClause' vs) = "Type.FuncParamClause(" ++ lst vs ++ ")"
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 instance ( n ~ SmName
          , t' ~ SmType'
@@ -76,7 +76,7 @@ instance Show SmImportee
 instance Show (SmImporter r i)
     where show (SmImporter r is) = "Importer(" ++ show r ++ ", " ++ lst is ++ ")"
 
--- L ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- L --
 
 instance Show SmLit
     where show (SmBooleanL v) = "Lit.Boolean (" ++ show v ++ ")"
@@ -92,7 +92,7 @@ instance Show SmLit
           show (SmSymbolL v) = "Lit.Symbol(" ++ show v ++ ")"
           show SmUnitL = "Lit.Unit()"
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 instance ( i ~ SmInit m n t' t ac
          , r ~ SmRef_
@@ -120,7 +120,7 @@ instance ( i ~ SmInit m n t' t ac
           show (MMod SmValParamM) = "Mod.ValParam()"
           show (MMod SmVarParamM) = "Mod.VarParam()"
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 instance Show SmName
     where show (NName SmAnonymousN) = "Name.Anonymous()"
@@ -139,7 +139,7 @@ instance Show SmNameT
 instance Show SmNameT'
     where show (SmNameT' v) = "Type.Name(" ++ show v ++ ")"
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 instance Show (SmParamClauseGroup m n p p' t' b' t pc pc')
     where show (SmParamClauseGroup t'pc pcs) = "Member.ParamClauseGroup" ++ show t'pc ++ ", " ++ lst pcs ++ ")"
@@ -214,7 +214,7 @@ instance ( m ~ SmMod
          ) => Show (SmParamClauseT' m n p' t' b')
      where show (SmParamClauseT' p's) = "Type.ParamClause(" ++ lst p's ++ ")"
 
- -- R ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- R --
 
 instance Show SmRef_
     where show (RImportee i) = show i
@@ -239,7 +239,7 @@ instance Show SmRef'
           show (RT'Ref (SmSelectRT' q n)) = "Type.Select(" ++ show q ++ ", " ++ show n ++ ")"
           show (RT'Ref (SmSingletonRT' r)) = "Type.Singleton(" ++ show r ++ ")"
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 instance ( n ~ SmName
          , t' ~ SmType'
@@ -283,7 +283,7 @@ instance Show (SmSource s)
 instance Show Symbol
     where show (Symbol v) = "Symbol(" ++ show v ++ ")"
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 instance Show (SmTemplate m n t' t ac i p s)
     where show (SmTemplate es is s ss t's) = "Template(" ++ lst es ++ ", " ++ lst is ++ ", " ++ show s ++ ", " ++ lst ss ++ ", " ++ lst t's ++ ")"
@@ -312,7 +312,7 @@ instance Show SmTerm
     show (TApplyType' (SmApplyType'T f t'ac)) = "Term.ApplyType(" ++ show f ++ ", " ++ show t'ac ++ ")"
     show (TTerm (SmAscribeT expr tpe)) = "Term.Ascribe(" ++ show expr ++ ", " ++ show tpe ++ ")"
     show (TAssign (SmAssignT lhs rhs)) = "Term.Assign(" ++ show lhs ++ ", " ++ show rhs ++ ")"
-    show (TTerm (SmBlockT ss)) = "Term.Block(" ++ lst ss ++ ")"
+    show (TBlock (SmBlockT ss)) = "Term.Block(" ++ lst ss ++ ")"
     show (TContextFunction (SmContextFunctionT pc b)) = "Term.ContextFunction(" ++ show pc ++ ", " ++ show b ++ ")"
     show (TDo (SmDoT b e)) = "Term.Do(" ++ show b ++ ", " ++ show e ++ ")"
     show (TTerm (SmEndMarkerT n)) = "Term.EndMarker(" ++ show n ++ ")"
@@ -320,7 +320,7 @@ instance Show SmTerm
     show (TFor (SmForT es b)) = "Term.For(" ++ lst es ++ ", " ++ show b ++ ")"
     show (TForYield (SmForYieldT es b)) = "Term.ForYield(" ++ lst es ++ ", " ++ show b ++ ")"
     show (TFunction (SmFunctionT pc b)) = "Term.Function(" ++ show pc ++ ", " ++ show b ++ ")"
-    show (TTerm (SmIfT c t e ms)) = "Term.If(" ++ show c ++ ", " ++ show t ++ ", " ++ show e ++ ", " ++ lst ms ++ ")"
+    show (TIf (SmIfT c t e ms)) = "Term.If(" ++ show c ++ ", " ++ show t ++ ", " ++ show e ++ ", " ++ lst ms ++ ")"
     show (TTerm (SmInterpolateT n ls as)) = "Term.Interpolate(" ++ show n ++ ", " ++ lst ls ++ ", " ++ lst as ++ ")"
     show (TMatch (SmMatchT e cs)) = "Term.Match(" ++ show e ++ ", " ++ lst cs ++ ")"
     show (TTerm (SmNewT i)) = "Term.New(" ++ show i ++ ")"
@@ -376,7 +376,7 @@ instance Show SmType'
           show (T'Type' (SmBlockT' t'ds tpe)) = "Type.Block(" ++ lst t'ds ++ ", " ++ show tpe ++ ")"
           show (T'Type' (SmByNameT' tpe)) = "Type.ByName(" ++ show tpe ++ ")"
           show (T'ContextFunction (SmContextFunctionT' pc res)) = "Type.ContextFunction(" ++ show pc ++ ", " ++ show res ++ ")"
-          show (T'Type' (SmExistentialT' tpe ss)) = "Type.Existential(" ++ show tpe ++ ", " ++ lst ss ++ ")"
+          show (T'Existential (SmExistentialT' tpe ss)) = "Type.Existential(" ++ show tpe ++ ", " ++ lst ss ++ ")"
           show (T'Function (SmFunctionT' pc res)) = "Type.Function(" ++ show pc ++ ", " ++ show res ++ ")"
           show (T'Type' (SmImplicitFunctionT' ps res)) = "Type.ImplicitFunction(" ++ lst ps ++ ", " ++ show ps ++ ")"
           show (T'Lambda (SmLambdaT' t'pc tpe)) = "Type.Lambda(" ++ show t'pc ++ ", " ++ show tpe ++ ")"
@@ -385,7 +385,7 @@ instance Show SmType'
           show (T'Type' (SmMethodT' pcs tpe)) = "Type.Method(" ++ seq pcs ++ ", " ++ show tpe ++ ")"
           show (T'Type' (SmOrT' lhs rhs)) = "Type.Or(" ++ show lhs ++ ", " ++ show rhs ++ ")"
           show (T'PolyFunction (SmPolyFunctionT' t'pc b)) = "Type.PolyFunction(" ++ show t'pc ++ ", " ++ show b ++ ")"
-          show (T'Type' (SmRefineT' tpe ss)) = "Type.Refine(" ++ show tpe ++ ", " ++ lst ss ++ ")"
+          show (T'Refine (SmRefineT' tpe ss)) = "Type.Refine(" ++ show tpe ++ ", " ++ lst ss ++ ")"
           show (T'Type' (SmRepeatedT' tpe)) = "Type.Repeated(" ++ show tpe ++ ")"
           show (T'Type' SmPatWildcardT') = "Type.PatWildcard()"
           show (T'Tuple (SmTupleT' as)) = "Type.Tuple(" ++ lst as ++ ")"

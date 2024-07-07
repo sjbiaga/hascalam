@@ -1,10 +1,11 @@
 module HaScalaM.Types.Enums where
 
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Term
 
 
--- E ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- E --
 
 data SmCaseGeneratorE p b where
     SmCaseGeneratorE :: ( Pat p
@@ -18,8 +19,8 @@ data SmGeneratorE p b where
                     ) => { patGE :: p
                          , rhsGE :: b } -> SmGeneratorE p b
 
-data SmGuardE b where
-    SmGuardE :: Term b => { condGE :: b } -> SmGuardE b
+data SmGuardE c where
+    SmGuardE :: Term c => { condGE :: c } -> SmGuardE c
 
 data SmValE p b where
     SmValE :: ( Pat p

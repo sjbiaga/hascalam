@@ -1,11 +1,12 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 module HaScalaM.Types.Type where
 
+import HaScalaM.Classes.Base
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
 
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 data SmApplyT' t' ac' where
     SmApplyT' :: ArgClauseT' t' ac' => { tpeAT' :: t'
@@ -21,16 +22,15 @@ data SmApplyInfixT' t'n t' where
 data SmContextFunctionT' t' where
     SmContextFunctionT' :: Type' t' => { paramClauseCFT' :: FuncParamClause' t'
                                        , resCFT' :: t' } -> SmContextFunctionT' t'
+data SmExistentialT' t' s where
+    SmExistentialT' :: ( Type' t'
+                       , Stat s
+                       ) => { tpeET' :: t'
+                            , statsET' :: [s] } -> SmExistentialT' t' s
 
 data SmFunctionT' t' where
     SmFunctionT' :: Type' t' => { paramClauseFT' :: FuncParamClause' t'
                                 , resFT' :: t' } -> SmFunctionT' t'
-
--- data SmFunctionArgT' m t' where
---     SmFunctionArgT' :: ( Mod m
---                        , Type' t'
---                        ) => { modsFAT' :: [m]
---                             , tpeFAT' :: t' } -> SmFunctionArgT' m t'
 
 data SmLambdaT' m n p' t' b' pc' where
     SmLambdaT' :: ParamClauseT' m n p' t' b' pc' => { t'paramClauseLT' :: pc'
@@ -47,16 +47,16 @@ data SmPolyFunctionT' m n p' t' b' pc' where
     SmPolyFunctionT' :: ParamClauseT' m n p' t' b' pc' => { t'ParamClausePFT' :: pc'
                                                           , bodyPFT' :: t' } -> SmPolyFunctionT' m n p' t' b' pc'
 
+data SmRefineT' t' s where
+    SmRefineT' :: ( Type' t'
+                  , Stat s
+                  ) => { tpeRfT' :: Maybe t'
+                       , statsRfT' :: [s] } -> SmRefineT' t' s
+
 data SmTupleT' t' where
     SmTupleT' :: Type' t' => { argsTT' :: [t'] } -> SmTupleT' t'
 
 
 data SmVarT' t'n where
     SmVarT' :: NameT' t'n => { nameVT' :: t'n } -> SmVarT' t'n
-
--- data SmTypedParamT' t'n t' where
---     SmTypedParamT' :: ( NameT' t'n
---                       , Type' t'
---                       ) => { nameTPT' :: t'n
---                            , tpeTPT' :: t' } -> SmTypedParamT' t'n t'
 

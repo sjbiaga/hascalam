@@ -13,7 +13,7 @@ import HaScalaM.Types.Tilde
 import HaScalaM.Instances.Ref
 
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 instance Tree SmImportee
 instance Importee SmImportee
@@ -34,13 +34,16 @@ instance Importer r i t => ImportExportStat r i t (SmImportExportStatS r i t)
     where importers (SmImportS is) = is
           importers (SmExportS is) = is
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 instance Stat s => Tree (SmPkgS SmRef s)
 instance Stat s => Member SmNameT (SmPkgS SmRef s)
     where name (SmPkgS (RTName n) _) = n
           name (SmPkgS (RTSelect (SmSelectRT _ n)) _) = n
 instance Stat s => MemberT SmNameT (SmPkgS SmRef s)
+instance Stat s => WithExprs s (SmPkgS SmRef s)
+    where exprs (SmPkgS _ ss) = ss
+instance Stat s => WithStats s (SmPkgS SmRef s)
 
 instance ( NameT tn
          , Template m n t' t ac i p s e
@@ -54,7 +57,7 @@ instance ( NameT tn
          ) => WithTemplate m n t' t ac i p s e (SmPkgObjectS m n p tn t' t ac i s e)
     where templ (SmPkgObjectS _ _ t) = t
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 instance Tree SmStat
 instance Stat SmStat

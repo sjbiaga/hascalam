@@ -2,6 +2,7 @@
 module HaScalaM.Instances.Stat.Decl where
 
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Stat
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
@@ -14,7 +15,7 @@ import HaScalaM.Types.Tilde
 import Data.Maybe (listToMaybe)
 
 
--- D ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- D --
 
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
@@ -54,7 +55,7 @@ instance ( NameT tn
          ) => WithDeclTpe t' (SmDef'S m n tn p p' t' b' t pc pc' g)
     where decltpe (SmDef'S _ _ _ dt) = dt
 
--- G ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- G --
 
 instance ( NameT tn
          , ParamClauseGroup m n p p' t' b' t pc pc' g
@@ -90,7 +91,7 @@ instance ( NameT tn
          ) => WithDeclTpe t' (SmGiven'S m n tn p p' t' b' t pc pc' g)
     where decltpe (SmGiven'S _ _ _ dt) = dt
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 instance ( NameT' t'n
          , ParamClauseT' m n p' t' b' pc'
@@ -118,7 +119,7 @@ instance ( NameT' t'n
          ) => Type'Def m n t'n p' t' b' pc' (SmType'S m n t'n p' t' b' pc')
     where bounds' (SmType'S _ _ _ b's) = b's
 
--- V ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- V --
 
 instance ( Mod m
          , Pat p
@@ -133,6 +134,11 @@ instance ( Mod m
          , Type' t'
          ) => WithMods m (SmVal'S m p t')
     where mods (SmVal'S ms _ _) = ms
+instance ( Mod m
+         , Pat p
+         , Type' t'
+         ) => WithPats p (SmVal'S m p t')
+    where pats (SmVal'S _ ps _) = ps
 instance ( Mod m
          , Pat p
          , Type' t'
@@ -152,6 +158,11 @@ instance ( Mod m
          , Type' t'
          ) => WithMods m (SmVar'S m p t')
     where mods (SmVar'S ms _ _) = ms
+instance ( Mod m
+         , Pat p
+         , Type' t'
+         ) => WithPats p (SmVar'S m p t')
+    where pats (SmVar'S _ ps _) = ps
 instance ( Mod m
          , Pat p
          , Type' t'

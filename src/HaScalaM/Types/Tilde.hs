@@ -3,6 +3,7 @@ module HaScalaM.Types.Tilde where
 import HaScalaM.Classes.Base
 import HaScalaM.Classes.Enums
 import HaScalaM.Classes.Stat
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Ref
 import HaScalaM.Classes.Term
 import HaScalaM.Classes.Type
@@ -16,7 +17,7 @@ import HaScalaM.Types.Term
 import HaScalaM.Types.Type
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 data SmCaseCT p t where
     SmCaseC :: ( p ~ SmPat
@@ -44,7 +45,7 @@ data SmCtorPrimary m n p t' t pc where
                           , nameCP :: n
                           , paramClausesCP :: [pc] } -> SmCtorPrimary m n p t' t pc
 
--- E ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- E --
 
 data SmEnumerator where
     ECaseGenerator :: ( p ~ SmPat
@@ -66,7 +67,7 @@ data SmEnumerator where
             , Term b
             ) => SmValE p b -> SmEnumerator
 
--- I ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- I --
 
 data SmImportee where
     SmGivenI :: ( t' ~ SmType'
@@ -108,7 +109,7 @@ data SmInit m n t' t ac where
                    , nameI :: n
                    , argClausesI :: [ac] } -> SmInit m n t' t ac
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 data SmMod where
     MAnnot :: ( m ~ SmMod
@@ -124,7 +125,7 @@ data SmMod where
                , Ref r
                ) => SmAccessM r -> SmMod
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 data SmName where
     NAnonymous :: SmAnonymousRT -> SmName
@@ -140,7 +141,7 @@ data SmNameT where
 data SmNameT' where
     SmNameT' :: { valueNT' :: String } -> SmNameT'
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 data SmParamClauseGroup m n p p' t' b' t pc pc' where
     SmParamClauseGroup :: ( m ~ SmMod
@@ -237,7 +238,7 @@ data SmArgClauseP p where
                     , Pat p
                     ) => { valuesACP :: [p] } -> SmArgClauseP p
 
--- R ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- R --
 
 data SmRef_ where
     RImportee :: SmImportee -> SmRef_
@@ -275,7 +276,7 @@ data SmRef' where
               , r ~ SmRef
               ) => SmRefT' t'n t' r -> SmRef'
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 data SmSelf n t' where
     SmSelf :: ( n ~ SmName
@@ -585,7 +586,7 @@ data SmSource s where
               , Stat s
               ) => { statsS :: [s] } -> SmSource s
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 data SmTemplate m n t' t ac i p s where
     SmTemplate :: ( m ~ SmMod
@@ -605,7 +606,7 @@ data SmTemplate m n t' t ac i p s where
                        , statsT :: [s]
                        , derivesT :: [t'] } -> SmTemplate m n t' t ac i p s
 
--- Te --------------------------------------------------------------------------
+-------------------------------------------------------------------------- Te --
 
 data SmTermT where
     SmAnnotateT :: ( m ~ SmMod
@@ -628,23 +629,12 @@ data SmTermT where
                   , Type' t'
                   ) => { exprAscrT :: t
                        , tpeAscrT :: t' } -> SmTermT
-    SmBlockT :: ( s ~ SmStat
-                , Stat s
-                ) => { statsBlT :: [s] } -> SmTermT
     SmEndMarkerT :: ( tn ~ SmNameT
                     , NameT tn
                     ) => { nameEMT :: tn } -> SmTermT
     SmEtaT :: ( t ~ SmTerm
               , Term t
               ) => { exprEtaT :: t } -> SmTermT
-    SmIfT :: ( m ~ SmMod
-             , t ~ SmTerm
-             , Mod m
-             , Term t
-             ) => { condIfT :: t
-                  , thenpIfT :: t
-                  , elsepIfT :: t
-                  , mods :: [m] } -> SmTermT
     SmInterpolateT :: ( tn ~ SmNameT
                       , l ~ SmLit
                       , t ~ SmTerm
@@ -722,6 +712,9 @@ data SmTerm where
     TAssign :: ( t ~ SmTerm
                , Term t
                ) => SmAssignT t -> SmTerm
+    TBlock :: ( s ~ SmStat
+              , Stat s
+              ) => SmBlockT s -> SmTerm
     TContextFunction :: ( m ~ SmMod
                         , n ~ SmName
                         , p ~ SmParamT m n t' t
@@ -751,6 +744,11 @@ data SmTerm where
                  , pc ~ SmParamClauseT m n p t' t
                  , ParamClauseT m n p t' t pc
                  ) => SmFunctionT m n p t' t pc -> SmTerm
+    TIf :: ( m ~ SmMod
+           , t ~ SmTerm
+           , Mod m
+           , Term t
+           ) => SmIfT m t -> SmTerm
     TLit :: SmLit -> SmTerm
     TMatch :: ( p ~ SmPat
               , t ~ SmTerm
@@ -826,7 +824,7 @@ data SmParamClauseT m n p t' t where
                       ) => { valuesPCT :: [p]
                            , modPCT :: Maybe m } -> SmParamClauseT m n p t' t
 
--- Ty --------------------------------------------------------------------------
+-------------------------------------------------------------------------- Ty --
 
 data SmType'T' where
     SmAndT' :: ( t' ~ SmType'
@@ -863,12 +861,6 @@ data SmType'T' where
     SmByNameT' :: ( t' ~ SmType'
                   , Type' t'
                   ) => { tpeBNT' :: t' } -> SmType'T'
-    SmExistentialT' :: ( t' ~ SmType'
-                       , s ~ SmStat
-                       , Type' t'
-                       , Stat s
-                       ) => { tpeET' :: t'
-                            , statsET' :: [s] } -> SmType'T'
     SmImplicitFunctionT' :: ( t' ~ SmType'
                             , Type' t'
                             ) => { paramsIFT' :: [t']
@@ -886,12 +878,6 @@ data SmType'T' where
               , Type' t'
               ) => { lhsOrT' :: t'
                    , rhsOrT' :: t' } -> SmType'T'
-    SmRefineT' :: ( t' ~ SmType'
-                  , s ~ SmStat
-                  , Type' t'
-                  , Stat s
-                  ) => { tpeRfT' :: Maybe t'
-                       , statsRfT' :: [s] } -> SmType'T'
     SmRepeatedT' :: ( t' ~ SmType'
                     , Type' t'
                     ) => { tpeRpT' :: t' } -> SmType'T'
@@ -920,6 +906,11 @@ data SmType' where
     T'ContextFunction :: ( t' ~ SmType'
                          , Type' t'
                          ) => SmContextFunctionT' t' -> SmType'
+    T'Existential :: ( t' ~ SmType'
+                     , s ~ SmStat
+                     , Type' t'
+                     , Stat s
+                     ) => SmExistentialT' t' s -> SmType'
     T'Function :: ( t' ~ SmType'
                   , Type' t'
                   ) => SmFunctionT' t' -> SmType'
@@ -948,6 +939,11 @@ data SmType' where
                       , ParamClauseT' m n p' t' b' pc'
                       ) => SmPolyFunctionT' m n p' t' b' pc' -> SmType'
     T'Ref :: SmRef' -> SmType'
+    T'Refine :: ( t' ~ SmType'
+                , s ~ SmStat
+                , Type' t'
+                , Stat s
+                ) => SmRefineT' t' s -> SmType'
     T'Tuple :: ( t' ~ SmType'
                , Type' t'
                ) => SmTupleT' t' -> SmType'

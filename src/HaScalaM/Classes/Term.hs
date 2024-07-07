@@ -2,32 +2,33 @@
 module HaScalaM.Classes.Term where
 
 import HaScalaM.Classes.Base
+import HaScalaM.Classes.Pat
 import HaScalaM.Classes.Type
 
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 class ( Pat p
       , Term t
       , CaseTree p t ct
       ) => Case p t ct
 
--- F ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- F --
 
 class ( ParamClause m n p pc
       , ParamT m n p t' t
       , Function p pc t f
       ) => FunctionT m n p pc t' t f
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 class (NameT n, Member n t) => MemberT n t
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 class Name t => NameT t
 
--- P ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- P --
 
 class ( Param m n p
       , WithDeclTpeOpt t' p
@@ -41,7 +42,7 @@ class ( ParamsType m
       ) => ParamClauseT m n p t' t pc
     where mod' :: pc -> Maybe m
 
--- T ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- T --
 
 class ( ArgsType m
       , Term t
@@ -51,9 +52,19 @@ class ( ArgsType m
 
 class Tree t => Term t
 
--- W ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- W --
 
 class ( ParamClauseT m n p t' t pc
       , Tree w
       ) => WithParamClauses m n p t' t pc w
     where paramClauses :: w -> [pc]
+
+class ( Term c
+      , Tree w
+      ) => WithCond c w
+    where cond :: w -> c
+
+class ( Term c
+      , Tree w
+      ) => WithCondOpt c w
+    where cond' :: w -> Maybe c

@@ -7,12 +7,12 @@ import HaScalaM.Classes.Term
 import HaScalaM.Classes
 
 
--- A ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- A --
 
 data SmAnnotM m n t' t ac i where
     SmAnnotM :: Init m n t' t ac i => { initA :: i } -> SmAnnotM m n t' t ac i
 
--- C ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- C --
 
 data SmCtorSecondaryS m n p t' t pc ac i s where
     SmCtorSecondaryS :: ( ParamClauseT m n p t' t pc
@@ -24,7 +24,7 @@ data SmCtorSecondaryS m n p t' t pc ac i s where
                              , initCSS :: i
                              , statsCSS :: [s] } -> SmCtorSecondaryS m n p t' t pc ac i s
 
--- L ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- L --
 
 data SmLit where
     SmBooleanL :: { valueBL :: Bool } -> SmLit
@@ -40,7 +40,7 @@ data SmLit where
     SmSymbolL :: { valueSyL :: Symbol } -> SmLit
     SmUnitL :: SmLit
 
--- M ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- M --
 
 data SmModM where
     SmAbstractM :: SmModM
@@ -67,7 +67,7 @@ data SmAccessM r where
     SmPrivateM :: Ref r => { withinPrivAM :: r } -> SmAccessM r
     SmProtectedM :: Ref r => { withinProtAM :: r } -> SmAccessM r
 
--- N ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- N --
 
 data SmNameN where
     SmAnonymousN :: SmNameN
@@ -75,6 +75,6 @@ data SmNameN where
     SmPlaceholderN :: SmNameN
     SmThisN :: SmNameN
 
--- S ---------------------------------------------------------------------------
+--------------------------------------------------------------------------- S --
 
 newtype Symbol = Symbol { name :: String }
